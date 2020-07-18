@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tweet Sentiment Analysis</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center my-5 pt-5">
+            <div class="col-md-6">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="">Image</label>
+                    <input type="file" name="img" class="form-control w-75" required>
+                    <input type="submit" name="submit" class="btn btn-primary my-3">
+                </form>
+            </div>
+        </div>
+        {% if result %}
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h3 class="mb-3">Previous Result</h3>
+                <p><strong>Image:</strong></p>
+                <img src="{{ image.img.url }}" alt="" width="300px" height="300px">
+            </div>
+            <div class="col-md-6">
+                <!-- <p><strong>Analysis:</strong> {{ analysis }}</p>
+                <p><strong>Score:</strong> {{ score }}</p> -->
+                <p><strong>Result:</strong></p>
+                <table class="mb-5 table">
+                    <tr>
+                        <th>Object</th>
+                        <th>Percentage</th>
+                    </tr>
+                    {% for i,j,k in result %}
+                    <tr>
+                        <td>{{ j }}</td>
+                        <td>{{ k }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
