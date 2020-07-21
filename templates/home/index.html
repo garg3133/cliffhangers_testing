@@ -18,17 +18,18 @@
                 </form>
             </div>
         </div>
-        {% if result %}
-        <div class="row justify-content-center">
+        {% if show %}
+        <h3 class="mb-3 text-center">Previous Result</h3>
+        <div class="row justify-content-center mb-5">
             <div class="col-md-6">
-                <h3 class="mb-3">Previous Result</h3>
-                <p><strong>Image:</strong></p>
-                <img src="{{ image.img.url }}" alt="" width="300px" height="300px">
+                <p><strong>Input:</strong></p>
+                <img src="{{ image.img.url }}" alt="" width="500px" height="500px">
             </div>
             <div class="col-md-6">
                 <!-- <p><strong>Analysis:</strong> {{ analysis }}</p>
                 <p><strong>Score:</strong> {{ score }}</p> -->
                 <p><strong>Result:</strong></p>
+                {% comment %}
                 <table class="mb-5 table">
                     <tr>
                         <th>Object</th>
@@ -41,6 +42,8 @@
                     </tr>
                     {% endfor %}
                 </table>
+                {% endcomment %}
+                <img src="{{ image.res.url }}" alt="" width="500px" height="500px">
             </div>
         </div>
         {% endif %}

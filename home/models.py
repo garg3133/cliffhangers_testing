@@ -4,3 +4,4 @@ from django.db import models
 
 class Image(models.Model):
     img = models.ImageField(upload_to='', null=True, blank=True)
+    res = models.ImageField(upload_to='', null=True, blank=True)

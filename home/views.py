@@ -1,10 +1,15 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
+
+import png
+import matplotlib
 
 from .models import Image
 
 # from .tweet_predictor import predict
-from .predict import predict
+# from .predict import predict
+from .files.object_detection_tutorial_final import detectObjectFromPathList
 
 # Create your views here.
 def index(request):
@@ -38,13 +43,22 @@ def imageClassifier(request):
         image.img = img
         image.save()
 
-        result = predict(image.img.name)
+        paths = [settings.MEDIA_ROOT + '\\' + image.img.name,]
+        print(paths)
+        result = detectObjectFromPathList(paths)
         result = result[0]
-        print(result)
+
+        path = settings.MEDIA_ROOT + '\\result.png'
+        matplotlib.image.imsave(path, result)
+        Image.objects.filter(pk=1).update(res='result.png')
+        image = Image.objects.get(pk=1)
+        # print(image.res, image.res.name, image.res.url, image.img, image.img.name, image.img.url )
+        # print(result)
 
         context = {
             'image': image,
             'result': result,
+            'show': True,
         }
         return render(request, 'home/index.html', context)
 
