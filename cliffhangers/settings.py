@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import ast
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(egvyzjxdhlp-wvssmfk4!=q9i@r$*%$0##ecrt812s=vot68f'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (config("DEBUG") == 'True')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ast.literal_eval(config("ALLOWED_HOSTS"))
 
 
 # Application definition
@@ -75,10 +77,23 @@ WSGI_APPLICATION = 'cliffhangers.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': config("DB_NAME"),
+        'ENGINE': 'mysql.connector.django',
+        'USER': config("DB_USER"),
+        'PASSWORD': config("DB_PASS"),
+        'HOST' : config("DB_HOST"),
+        'OPTIONS': {
+            'autocommit': True,
+        },
     }
 }
 
@@ -119,7 +134,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT = config("STATIC_ROOT")
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = config("MEDIA_ROOT")
 MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [ BASE_DIR+"/static", ]
